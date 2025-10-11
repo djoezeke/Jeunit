@@ -81,14 +81,14 @@
 // [SECTION] Header mess
 //-----------------------------------------------------------------------------
 
-#include <stdarg.h>
-#include <time.h>
-#include <stdbool.h>
-#include <stdio.h>	// for printf
-#include <stdlib.h> // for realloc
-#include <string.h> // for strdup strlen
-#include <unistd.h>
 #include <assert.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>   // for printf
+#include <stdlib.h>  // for realloc
+#include <string.h>  // for strdup strlen
+#include <time.h>
+#include <unistd.h>
 
 #ifdef __cplusplus
 
@@ -96,10 +96,10 @@
 #include <iostream>
 #include <unordered_map>
 
-#endif //__cplusplus
+#endif  //__cplusplus
 
 #ifdef JEUNIT_TESTS
-#endif // JEUNIT_TESTS
+#endif  // JEUNIT_TESTS
 
 //-----------------------------------------------------------------------------
 // [SECTION] Platform
@@ -143,7 +143,8 @@
  * @return  platform name.
  */
 #define JEUNIT_PLATFORM_NAME_IS "Linux"
-#elif defined(WIN32) || defined(__WIN32__) || defined(_WIN32) || defined(_MSC_VER) || defined(__MINGW32__)
+#elif defined(WIN32) || defined(__WIN32__) || defined(_WIN32) || \
+    defined(_MSC_VER) || defined(__MINGW32__)
 /**
  * A preprocessor macro that is only defined if compiling for Windows.
  */
@@ -282,43 +283,45 @@
 #if JEUNIT_COMPILER_IS(CLANG)
 #define JEUNIT_PRAGMA_TO_STR(x) _Pragma(#x)
 #define JEUNIT_CLANG_SUPPRESS_WARNING_PUSH _Pragma("clang diagnostic push")
-#define JEUNIT_CLANG_SUPPRESS_WARNING(w) JEUNIT_PRAGMA_TO_STR(clang diagnostic ignored w)
+#define JEUNIT_CLANG_SUPPRESS_WARNING(w) \
+  JEUNIT_PRAGMA_TO_STR(clang diagnostic ignored w)
 #define JEUNIT_CLANG_SUPPRESS_WARNING_POP _Pragma("clang diagnostic pop")
 #define JEUNIT_CLANG_SUPPRESS_WARNING_WITH_PUSH(w) \
-	JEUNIT_CLANG_SUPPRESS_WARNING_PUSH JEUNIT_CLANG_SUPPRESS_WARNING(w)
-#else // JEUNIT_CLANG
+  JEUNIT_CLANG_SUPPRESS_WARNING_PUSH JEUNIT_CLANG_SUPPRESS_WARNING(w)
+#else  // JEUNIT_CLANG
 #define JEUNIT_CLANG_SUPPRESS_WARNING_PUSH
 #define JEUNIT_CLANG_SUPPRESS_WARNING(w)
 #define JEUNIT_CLANG_SUPPRESS_WARNING_POP
 #define JEUNIT_CLANG_SUPPRESS_WARNING_WITH_PUSH(w)
-#endif // JEUNIT_CLANG
+#endif  // JEUNIT_CLANG
 
 #if JEUNIT_COMPILER_IS(GCC)
 #define JEUNIT_PRAGMA_TO_STR(x) _Pragma(#x)
 #define JEUNIT_GCC_SUPPRESS_WARNING_PUSH _Pragma("GCC diagnostic push")
-#define JEUNIT_GCC_SUPPRESS_WARNING(w) JEUNIT_PRAGMA_TO_STR(GCC diagnostic ignored w)
+#define JEUNIT_GCC_SUPPRESS_WARNING(w) \
+  JEUNIT_PRAGMA_TO_STR(GCC diagnostic ignored w)
 #define JEUNIT_GCC_SUPPRESS_WARNING_POP _Pragma("GCC diagnostic pop")
 #define JEUNIT_GCC_SUPPRESS_WARNING_WITH_PUSH(w) \
-	JEUNIT_GCC_SUPPRESS_WARNING_PUSH JEUNIT_GCC_SUPPRESS_WARNING(w)
-#else // JEUNIT_GCC
+  JEUNIT_GCC_SUPPRESS_WARNING_PUSH JEUNIT_GCC_SUPPRESS_WARNING(w)
+#else  // JEUNIT_GCC
 #define JEUNIT_GCC_SUPPRESS_WARNING_PUSH
 #define JEUNIT_GCC_SUPPRESS_WARNING(w)
 #define JEUNIT_GCC_SUPPRESS_WARNING_POP
 #define JEUNIT_GCC_SUPPRESS_WARNING_WITH_PUSH(w)
-#endif // JEUNIT_GCC
+#endif  // JEUNIT_GCC
 
 #if JEUNIT_COMPILER_IS(MSVC)
 #define JEUNIT_MSVC_SUPPRESS_WARNING_PUSH __pragma(warning(push))
 #define JEUNIT_MSVC_SUPPRESS_WARNING(w) __pragma(warning(disable : w))
 #define JEUNIT_MSVC_SUPPRESS_WARNING_POP __pragma(warning(pop))
 #define JEUNIT_MSVC_SUPPRESS_WARNING_WITH_PUSH(w) \
-	JEUNIT_MSVC_SUPPRESS_WARNING_PUSH JEUNIT_MSVC_SUPPRESS_WARNING(w)
-#else // JEUNIT_MSVC
+  JEUNIT_MSVC_SUPPRESS_WARNING_PUSH JEUNIT_MSVC_SUPPRESS_WARNING(w)
+#else  // JEUNIT_MSVC
 #define JEUNIT_MSVC_SUPPRESS_WARNING_PUSH
 #define JEUNIT_MSVC_SUPPRESS_WARNING(w)
 #define JEUNIT_MSVC_SUPPRESS_WARNING_POP
 #define JEUNIT_MSVC_SUPPRESS_WARNING_WITH_PUSH(w)
-#endif // JEUNIT_MSVC
+#endif  // JEUNIT_MSVC
 
 /** @} */
 
@@ -336,17 +339,18 @@
 #define JEUNIT_API_EXPORT __declspec(dllexport)
 #define JEUNIT_API_IMPORT __declspec(dllimport)
 #define JEUNIT_DEPRECATED_ATTR __declspec(deprecated)
-#else // _WIN32
+#else  // _WIN32
 #define JEUNIT_API_EXPORT __attribute__((visibility("default")))
 #define JEUNIT_API_IMPORT __attribute__((visibility("default")))
 #define JEUNIT_NO_EXPORT_ATTR __attribute__((visibility("hidden")))
 #define JEUNIT_DEPRECATED_ATTR __attribute__((__deprecated__))
-#endif // _WIN32
+#endif  // _WIN32
 
 /**
  * @def JEUNIT_API
  * @brief Macro for public API symbol export/import.
- * @details Use this macro to annotate all public API functions for correct symbol visibility on all platforms.
+ * @details Use this macro to annotate all public API functions for correct
+ * symbol visibility on all platforms.
  */
 
 #if defined(JEUNIT_BUILD_STATIC)
@@ -357,9 +361,9 @@
 #elif defined(JEUNIT_IMPORT)
 /* We are using this library */
 #define JEUNIT_API JEUNIT_API_IMPORT
-#else // JEUNIT_BUILD_STATIC
+#else  // JEUNIT_BUILD_STATIC
 #define JEUNIT_API
-#endif // JEUNIT_BUILD_STATIC
+#endif  // JEUNIT_BUILD_STATIC
 
 /** @} */
 
@@ -367,63 +371,77 @@
 // [SECTION] Macros
 //-----------------------------------------------------------------------------
 
-#define _TEST(name)                    \
-	JEUNIT_CLANG_SUPPRESS_WARNING_PUSH \
-	JEUNIT_MSVC_SUPPRESS_WARNING_PUSH  \
-	JEUNIT_GCC_SUPPRESS_WARNING_PUSH   \
-	static void name(void);            \
-	JEUNIT_GCC_SUPPRESS_WARNING_POP    \
-	JEUNIT_MSVC_SUPPRESS_WARNING_POP   \
-	JEUNIT_CLANG_SUPPRESS_WARNING_POP  \
-	static void name(void)
+#define _DECLARE_TEST(test_name)     \
+  JEUNIT_CLANG_SUPPRESS_WARNING_PUSH \
+  JEUNIT_MSVC_SUPPRESS_WARNING_PUSH  \
+  JEUNIT_GCC_SUPPRESS_WARNING_PUSH   \
+  int test_name(void);               \
+  JEUNIT_GCC_SUPPRESS_WARNING_POP    \
+  JEUNIT_MSVC_SUPPRESS_WARNING_POP   \
+  JEUNIT_CLANG_SUPPRESS_WARNING_POP
 
+#define _REGISTER_TEST(test_name, skip_flag, xfail_flag)                  \
+  do {                                                                    \
+    JeunitTestCase_t tc = {test_name, #test_name, skip_flag, xfail_flag}; \
+    if (test_count < MAX_TESTS) {                                         \
+      test_cases[test_count] = tc;                                        \
+      test_count++;                                                       \
+    }                                                                     \
+  } while (0)
+
+#define _CONSTRUCT_TEST(test_name, skip_flag, xfail_flag)      \
+  __attribute__((constructor)) static void reg_##test_name() { \
+    _REGISTER_TEST(test_name, skip_flag, xfail_flag);          \
+  };
+
+#define _DEFINE_TEST(test_name) int test_name(void)
+
+#define _MAKE_TEST(test_name, skip_flag, xfail_flag) \
+  _DECLARE_TEST(test_name)                           \
+  _CONSTRUCT_TEST(test_name, skip_flag, xfail_flag)  \
+  _DEFINE_TEST(test_name)
+
+#define _NEW_TEST(test_name, skip_flag, xfail_flag) \
+  _MAKE_TEST(test_name, skip_flag, xfail_flag)
+
+#define _TEST(name) _NEW_TEST(name, 0, 0)
 #define TEST(name) _TEST(name)
 
-#define TEST_CASE(name) _TEST(name)
+#define _TEST_SKIP(name) _NEW_TEST(name, 1, 0)
+#define TEST_SKIP(name) _TEST_SKIP(name)
+
+#define _TEST_XFAIL(name) _NEW_TEST(name, 0, 1)
+#define TEST_XFAIL(name) _TEST_XFAIL(name)
+
+#define FAIL()                                                               \
+  do {                                                                       \
+    printf("    \033[31mFAIL called\033[0m at %s:%d\n", __FILE__, __LINE__); \
+    return 1;                                                                \
+  } while (0)
+
+#define SKIP()                                                               \
+  do {                                                                       \
+    printf("    \033[33mSKIP called\033[0m at %s:%d\n", __FILE__, __LINE__); \
+    return 99;                                                               \
+  } while (0)
+
+#define ASSERT_EQ(expected, actual)                                       \
+  if ((expected) != (actual)) {                                           \
+    printf(                                                               \
+        "    \033[31mASSERT_EQ failed\033[0m at %s:%d: Expected %d, got " \
+        "%d\n",                                                           \
+        __FILE__, __LINE__, (expected), (actual));                        \
+    return 1;                                                             \
+  }
 
 #define CHECK(expr)
 #define REQUIRE(expr)
 #define SECTION(name)
 
-#define JeunitRunTest(name) _JeunitRunTestFunc(#name, name);
-#define JeunitRunSuite(name) _JeunitRunTestSuite(#name, test_suite_##name);
+#define JeunitRunTestCase(name) _JeunitRunTestFunc(#name, name);
+#define JeunitRunTestSuite(name) _JeunitRunTestSuite(#name, test_suite_##name);
 
-// Test Suite
-
-#define _TEST_SUITE(name) \
-	_JeunitTestSuite_t test_suite_##name[] =
-
-#define _AddTest(name) \
-	{#name, name}
-
-#define _END_SUITE \
-	{NULL, NULL}
-
-#define TEST_SUITE(name) _TEST_SUITE(name)
-
-#define AddTest(name) _AddTest(name)
-
-#define END_SUITE _END_SUITE
-
-// JEunit Test Suites
-
-#define _JEUNIT_SUITES \
-	_JeunitTestSuites_t cu_test_suites[] =
-
-#define _AddSuite(name) \
-	{#name, test_suite_##name}
-
-#define _SUITES_END \
-	{NULL, NULL}
-
-#define JEUNIT_SUITES _JEUNIT_SUITES
-
-#define AddSuite(name) _AddSuite(name)
-
-#define SUITES_END _SUITES_END
-
-#define JEUNIT_RUN_MAIN(argc, argv) \
-	JeunitRunMain(argc, argv)
+#define JEUNIT_RUN_MAIN(argc, argv) JeunitRunMain(argc, argv)
 
 #define safe_repr(x) #x
 
@@ -435,219 +453,188 @@
 
 #define JEUNIT_MESSAGE_LENGHT 50
 
-#define skip_(format, ...)            \
-	do                                \
-	{                                 \
-		_JeunitSkipTest(__VA_ARGS__); \
-		return;                       \
-	} while (0)
+#define skip_(format, ...)        \
+  do {                            \
+    _JeunitSkipTest(__VA_ARGS__); \
+    return;                       \
+  } while (0)
 
 #define skipIf_(condition, format, ...) \
-	do                                  \
-	{                                   \
-		if ((condition))                \
-		{                               \
-			skip_(format, __VA_ARGS__); \
-		}                               \
-	} while (0)
+  do {                                  \
+    if ((condition)) {                  \
+      skip_(format, __VA_ARGS__);       \
+    }                                   \
+  } while (0)
 
 #define skipUnless_(condition, format, ...) \
-	do                                      \
-	{                                       \
-		if (!(condition))                   \
-		{                                   \
-			skip_(format, __VA_ARGS__);     \
-		}                                   \
-	} while (0)
+  do {                                      \
+    if (!(condition)) {                     \
+      skip_(format, __VA_ARGS__);           \
+    }                                       \
+  } while (0)
 
-#define fail_(format, ...)                                                     \
-	do                                                                         \
-	{                                                                          \
-		char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-		snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-		_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		return;                                                                \
-	} while (0)
+#define fail_(format, ...)                                                 \
+  do {                                                                     \
+    char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+    snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+    _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    return;                                                                \
+  } while (0)
 
-#define xfail_(format, ...)                                                    \
-	do                                                                         \
-	{                                                                          \
-		char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-		snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-		_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		return;                                                                \
-	} while (0)
+#define xfail_(format, ...)                                                \
+  do {                                                                     \
+    char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+    snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+    _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    return;                                                                \
+  } while (0)
 
-#define assertTrue_(expr, format, ...)                                             \
-	do                                                                             \
-	{                                                                              \
-		if (!(expr))                                                               \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertTrue_(expr, format, ...)                                       \
+  do {                                                                       \
+    if (!(expr)) {                                                           \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertFalse_(expr, format, ...)                                            \
-	do                                                                             \
-	{                                                                              \
-		if ((expr))                                                                \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertFalse_(expr, format, ...)                                      \
+  do {                                                                       \
+    if ((expr)) {                                                            \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertIsNull_(expr, format, ...)                                           \
-	do                                                                             \
-	{                                                                              \
-		if (!((expr) == NULL))                                                     \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertIsNull_(expr, format, ...)                                     \
+  do {                                                                       \
+    if (!((expr) == NULL)) {                                                 \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertIsNotNull_(expr, format, ...)                                        \
-	do                                                                             \
-	{                                                                              \
-		if (((expr) == NULL))                                                      \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertIsNotNull_(expr, format, ...)                                  \
+  do {                                                                       \
+    if (((expr) == NULL)) {                                                  \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertEqual_(first, second, format, ...)                                   \
-	do                                                                             \
-	{                                                                              \
-		if (!((first) == (second)))                                                \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertEqual_(first, second, format, ...)                             \
+  do {                                                                       \
+    if (!((first) == (second))) {                                            \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertNotEqual_(first, second, format, ...)                                \
-	do                                                                             \
-	{                                                                              \
-		if (((first) == (second)))                                                 \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-		else                                                                       \
-		{                                                                          \
-		}                                                                          \
-	} while (0)
+#define assertNotEqual_(first, second, format, ...)                          \
+  do {                                                                       \
+    if (((first) == (second))) {                                             \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    } else {                                                                 \
+    }                                                                        \
+  } while (0)
 
-#define assertLess_(first, second, format, ...)                                    \
-	do                                                                             \
-	{                                                                              \
-		if (!((first) < (second)))                                                 \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertLess_(first, second, format, ...)                              \
+  do {                                                                       \
+    if (!((first) < (second))) {                                             \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertLessEqual_(first, second, format, ...)                               \
-	do                                                                             \
-	{                                                                              \
-		if (!((first) <= (second)))                                                \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertLessEqual_(first, second, format, ...)                         \
+  do {                                                                       \
+    if (!((first) <= (second))) {                                            \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertGreater_(first, second, format, ...)                                 \
-	do                                                                             \
-	{                                                                              \
-		if (!((first) > (second)))                                                 \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertGreater_(first, second, format, ...)                           \
+  do {                                                                       \
+    if (!((first) > (second))) {                                             \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define assertGreaterEqual_(first, second, format, ...)                            \
-	do                                                                             \
-	{                                                                              \
-		if (!((first) >= (second)))                                                \
-		{                                                                          \
-			char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
-			snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
-			_JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
-		}                                                                          \
-	} while (0)
+#define assertGreaterEqual_(first, second, format, ...)                      \
+  do {                                                                       \
+    if (!((first) >= (second))) {                                            \
+      char _jeunit_message[JEUNIT_MESSAGE_LENGHT];                           \
+      snprintf(_jeunit_message, JEUNIT_MESSAGE_LENGHT, format, __VA_ARGS__); \
+      _JeunitFailureAssertion(__FILE__, __LINE__, _jeunit_message);          \
+    }                                                                        \
+  } while (0)
 
-#define fail(message) \
-	fail_("%s", message)
+#define fail(message) fail_("%s", message)
 
-#define xfail(message) \
-	xfail_("%s", message)
+#define xfail(message) xfail_("%s", message)
 
 // Unconditionally skip a test.
-#define skip(reason) \
-	skip_("%s", reason)
+#define skip(reason) skip_("%s", reason)
 
 // Skip a test if the condition is true.
-#define skipIf(condition, reason) \
-	skipIf_(condition, "%s", reason)
+#define skipIf(condition, reason) skipIf_(condition, "%s", reason)
 
 // Skip a test unless the condition is true.
-#define skipUnless(condition, reason) \
-	skipUnless_(condition, "%s", reason)
+#define skipUnless(condition, reason) skipUnless_(condition, "%s", reason)
 
 // Check that the expression is true.
-#define assertTrue(expr) \
-	assertTrue_(expr, "%s is not true", safe_repr(expr))
+#define assertTrue(expr) assertTrue_(expr, "%s is not true", safe_repr(expr))
 
 // Check that the expression is false.
-#define assertFalse(expr) \
-	assertFalse_(expr, "%s is not false", safe_repr(expr))
+#define assertFalse(expr) assertFalse_(expr, "%s is not false", safe_repr(expr))
 
 // Check that the expression is NULL.
 #define assertIsNull(expr) \
-	assertIsNull_(expr, "%s is not NULL", safe_repr(expr))
+  assertIsNull_(expr, "%s is not NULL", safe_repr(expr))
 
 // Check that the expression is not NULL.
 #define assertIsNotNull(expr) \
-	assertIsNotNull_(expr, "%s is NULL", safe_repr(expr))
+  assertIsNotNull_(expr, "%s is NULL", safe_repr(expr))
 
 /**
  * Fail if the two objects are not equal as determined by the '==' operator.
  */
 #define assertEqual(first, second) \
-	assertEqual_(first, second, "%s != %s", safe_repr(first), safe_repr(second))
+  assertEqual_(first, second, "%s != %s", safe_repr(first), safe_repr(second))
 
 /**
  * Fail if the two objects are equal as determined by the '!=' operator.
  */
-#define assertNotEqual(first, second) \
-	assertNotEqual_(first, second, "%s == %s", safe_repr(first), safe_repr(second))
+#define assertNotEqual(first, second)                          \
+  assertNotEqual_(first, second, "%s == %s", safe_repr(first), \
+                  safe_repr(second))
 
-#define assertLess(first, second) \
-	assertLess_(first, second, "%s not less than %s", safe_repr(first), safe_repr(second))
+#define assertLess(first, second)                                     \
+  assertLess_(first, second, "%s not less than %s", safe_repr(first), \
+              safe_repr(second))
 
-#define assertLessEqual(first, second) \
-	assertLessEqual_(first, second, "%s not less than or equal to %s", safe_repr(first), safe_repr(second))
+#define assertLessEqual(first, second)                               \
+  assertLessEqual_(first, second, "%s not less than or equal to %s", \
+                   safe_repr(first), safe_repr(second))
 
-#define assertGreater(first, second) \
-	assertGreater_(first, second, "%s not greater than %s", safe_repr(first), safe_repr(second))
+#define assertGreater(first, second)                                        \
+  assertGreater_(first, second, "%s not greater than %s", safe_repr(first), \
+                 safe_repr(second))
 
-#define assertGreaterEqual(first, second) \
-	assertGreaterEqual_(first, second, "%s not greater than or equal to %s", safe_repr(first), safe_repr(second))
+#define assertGreaterEqual(first, second)                                  \
+  assertGreaterEqual_(first, second, "%s not greater than or equal to %s", \
+                      safe_repr(first), safe_repr(second))
 
 //-----------------------------------------------------------------------------
 // [SECTION] Data Structures
@@ -659,21 +646,26 @@
  * @{
  */
 
-typedef void (*_JeunitTestFunc_t)(void);
+typedef int (*_JeunitTestFunc_t)(void);
 
-typedef struct _JeunitTestSuite_t
-{
-	const char *name;
-	_JeunitTestFunc_t func;
-} _JeunitTestSuite_t;
+typedef struct _JeunitTestCase_t {
+  _JeunitTestFunc_t func;
+  const char *name;
+  int skip;
+  int xfail;
+} JeunitTestCase_t;
 
-typedef struct _JeunitTestSuites_t
-{
-	const char *name;
-	_JeunitTestSuite_t *test_suite;
-} _JeunitTestSuites_t;
+typedef struct _JeunitTestSuites_t {
+  JeunitTestCase_t *cases;
+  const char *name;
+  int count;
 
-extern _JeunitTestSuites_t cu_test_suites[];
+} JeunitTestSuites_t;
+
+#define MAX_TESTS 128
+
+static JeunitTestCase_t test_cases[MAX_TESTS];
+static int test_count = 0;
 
 /** @} */
 
@@ -682,15 +674,14 @@ extern _JeunitTestSuites_t cu_test_suites[];
 //-----------------------------------------------------------------------------
 
 #ifdef __cplusplus
-extern "C"
-{
-#endif //__cplusplus
+extern "C" {
+#endif  //__cplusplus
 
-	int JeunitRunMain(int argc, char *argv[]);
+int JeunitRunMain(int argc, char *argv[]);
 
 #ifdef __cplusplus
 };
-#endif //__cplusplus
+#endif  //__cplusplus
 
 #ifdef __cplusplus
 
@@ -698,14 +689,11 @@ extern "C"
 // [SECTION] C++ Only Classes
 //-----------------------------------------------------------------------------
 
-namespace jeunit
-{
+namespace jeunit {};  // namespace jeunit
 
-}; // namespace jeunit
+#endif  //__cplusplus
 
-#endif //__cplusplus
-
-#endif // JEUNIT_H
+#endif  // JEUNIT_H
 
 #ifdef JEUNIT_IMPLEMENTATION
 
@@ -724,57 +712,44 @@ namespace jeunit
 //-----------------------------------------------------------------------------
 
 #ifdef __cplusplus
-extern "C"
-{
-#endif // __cplusplus
+extern "C" {
+#endif  // __cplusplus
 
-	//-----------------------------------------------------------------------------
-	// [SECTION] Declarations
-	//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// [SECTION] Declarations
+//-----------------------------------------------------------------------------
 
-	void _JeunitAddMessage(const char *format, ...);
-	void _JeunitSuccessAssertion(const char *file, int line, const char *message);
-	void _JeunitFailureAssertion(const char *file, int line, const char *message);
+void _JeunitAddMessage(const char *format, ...);
+void _JeunitSuccessAssertion(const char *file, int line, const char *message);
+void _JeunitFailureAssertion(const char *file, int line, const char *message);
 
-	static void _JeunitRunTestFunc(const char *test_name, _JeunitTestFunc_t test_func);
+static void _JeunitRunTestFunc(_JeunitTestFunc_t *test_func);
+static void _JeunitRunTestCase(JeunitTestCase_t *test_case);
+static void _JeunitRunTestSuite(JeunitTestSuites_t *test_suite);
 
-	static void _JeunitRunTestSuite(const char *suite_name, _JeunitTestSuite_t *test_suite);
+static void _JeunitOutputResult(void);
 
-	static void _JeunitOutputResult(void);
+//-----------------------------------------------------------------------------
+// [SECTION] Definations
+//-----------------------------------------------------------------------------
 
-	//-----------------------------------------------------------------------------
-	// [SECTION] Definations
-	//-----------------------------------------------------------------------------
+void _JeunitAddMessage(const char *format, ...) {};
 
-	void _JeunitAddMessage(const char *format, ...) {
-	};
+void _JeunitSuccessAssertion(const char *file, int line, const char *message) {
+};
 
-	void _JeunitSuccessAssertion(const char *file, int line, const char *message) {
-	};
+void _JeunitFailureAssertion(const char *file, int line, const char *message) {
+};
 
-	void _JeunitFailureAssertion(const char *file, int line, const char *message) {
-	};
+static void _JeunitRunTestFunc(_JeunitTestFunc_t *test_func) {};
+static void _JeunitRunTestCase(JeunitTestCase_t *test_case) {};
+static void _JeunitRunTestSuite(JeunitTestSuites_t *test_suite) {};
 
-	static void _JeunitRunTestFunc(const char *test_name, _JeunitTestFunc_t test_func)
-	{
-		(*(test_func))();
-	};
-
-	static void _JeunitRunTestSuite(const char *suite_name, _JeunitTestSuite_t *test_suite)
-	{
-		while (test_suite->name != NULL && test_suite->func != NULL)
-		{
-			_JeunitRunTestFunc(test_suite->name, test_suite->func);
-			test_suite++; /* next test in test suite */
-		}
-	};
-
-	static void _JeunitOutputResult(void) {
-	};
+static void _JeunitOutputResult(void) {};
 
 #ifdef __cplusplus
 }
-#endif // __cplusplus
+#endif  // __cplusplus
 
 //-----------------------------------------------------------------------------
 // [SECTION] C++ Only Classes
@@ -790,7 +765,7 @@ extern "C"
 // [SECTION] Definations
 //-----------------------------------------------------------------------------
 
-#endif //__cplusplus
+#endif  //__cplusplus
 
 #pragma endregion
 
@@ -801,16 +776,54 @@ extern "C"
 //-----------------------------------------------------------------------------
 
 #ifdef __cplusplus
-extern "C"
-{
-#endif // __cplusplus
+extern "C" {
+#endif  // __cplusplus
 
-	int JeunitRunMain(int argc, char *argv[]) {
-	};
+int JeunitRunMain(int argc, char *argv[]) {
+  int total = 0, failures = 0, skipped = 0, xfailed = 0, xpassed = 0;
+
+  printf("\n\033[1mRunning %d tests...\033[0m\n\n", test_count);
+
+  for (int i = 0; i < test_count; ++i) {
+    printf("[TEST] %s\n", test_cases[i].name);
+    if (test_cases[i].skip) {
+      printf("  \033[33mSKIPPED\033[0m\n");
+      skipped++;
+      total++;
+      continue;
+    }
+    int result = test_cases[i].func();
+    if (test_cases[i].xfail) {
+      if (result != 0) {
+        printf("  \033[36mXFAIL\033[0m\n");
+        xfailed++;
+      } else {
+        printf("  \033[35mXPASS\033[0m\n");
+        xpassed++;
+      }
+    } else if (result == 0) {
+      printf("  \033[32mPASSED\033[0m\n");
+    } else if (result == 99) {
+      printf("  \033[33mSKIPPED\033[0m\n");
+      skipped++;
+    } else {
+      printf("  \033[31mFAILED\033[0m\n");
+      failures++;
+    }
+    total++;
+  }
+  printf(
+      "\nSummary: \033[1m%d/%d passed\033[0m, \033[33m%d skipped\033[0m, "
+      "\033[36m%d xfail\033[0m, \033[35m%d xpass\033[0m, \033[31m%d "
+      "failed\033[0m\n",
+      total - failures - xpassed - skipped, total, skipped, xfailed, xpassed,
+      failures);
+  return failures + xpassed;
+};
 
 #ifdef __cplusplus
 };
-#endif // __cplusplus
+#endif  // __cplusplus
 
 //-----------------------------------------------------------------------------
 // [SECTION] C++ Only Classes
@@ -818,13 +831,10 @@ extern "C"
 
 #ifdef __cplusplus
 
-namespace jeunit
-{
+namespace jeunit {};  // namespace jeunit
 
-}; // namespace jeunit
-
-#endif //__cplusplus
+#endif  //__cplusplus
 
 #pragma endregion
 
-#endif // JEUNIT_IMPLEMENTATION
+#endif  // JEUNIT_IMPLEMENTATION

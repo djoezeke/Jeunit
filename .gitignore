@@ -1,4 +1,4 @@
 a.exe
 .vscode/
 build/
-jeunit.hpp
+*.hpp
