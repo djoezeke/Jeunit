@@ -14,7 +14,7 @@ integrating Jeunit in your own application.
 Integration in a typical existing application, should take no time.
 
 ```cpp
-#include <Jeunit/Jeunit.h>
+#include <jeunit/jeunit.h>
 ```
 
 Main resource:
